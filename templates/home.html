@@ -1,11 +1,13 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     {% load static %}
     <title>Home</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
@@ -14,47 +16,144 @@
 </head>
 
 <body>
-    <div class="center">
-        <h2 class="text-primary pt-5 pb-3 text-center">Django ToDo App </h2>
-    </div>
     <div class="container">
-        <h4 class="text-secondary pt-3 pb-2 text-left">{% now "j F Y"%}</h4>
-    </div>
-    
-    <div>
-        <div class="container text-center" style="overflow: scroll;">
-            <div class="row">
-                <div class="col">
-                    <div class="card">
-                        <div class="card-header text-primary fw-bold">
-                            Todo Tasks
+        <h2 class="text-primary pt-5 pb-3 text-center">Django ToDo App </h2>
+
+
+        <h4 style="display: inline-block;" class="text-secondary pt-3 pb-2 text-start">{% now "j F Y"%}</h4>
+        <h4 style="display: inline-block;" class="text-primary pt-3 pb-2 text-start">| MY DAY</h4>
+
+
+
+        <div>
+            <div class="container text-center ">
+                {% if messages %}
+                <div class="container mt-3">
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+
+
+
+                <div class="row">
+                    <div class="col-lg-6 pb-1" style="height: 450px;overflow-y: scroll;">
+
+
+                        {% for i in tocomplete %}
+
+
+                        <div class="card mt-2">
+
+                            <div class="card-header text-primary fw-bold">
+                                Todo Task #{{forloop.counter}} <a class="bi bi-pencil-square"
+                                    href="{% url 'editit' i.pk %}"></a>
+
+
+
+
+                                <div class="card-body">
+
+
+                                    <h5 class="text-start" style="text-align: left;">{{i.taskname}}</h5>
+                                    <a style="margin-right: 10px;" href="{% url 'done' pk=i.pk %}"
+                                        class="btn btn-primary mt-4">Mark as
+                                        done</a><a href="{% url 'removetask' pk=i.pk %}"
+                                        class="btn btn-secondary mt-4">Remove
+                                        Task</a>
+                                </div>
+
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Special title treatment</h5>
-                            <p class="card-text">With supporting text below as a natural lead-in to additional content.
-                            </p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                        {% empty %}
+                        <p>No pending tasks.</p>
+
+
+
+
+
+
+                        {% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                    <div class="col-lg-6 text-start">
+                        <div class="card mb-3">
+                            <div
+                                class="card-header text-primary fw-bold d-flex justify-content-between align-items-center">
+                                Tasks successfully finished
+
+                                <a href="{% url 'clear' %}" style="font-size: small;" class="btn btn-secondary ">Clear
+                                    All</a>
+                            </div>
+
+                            {%for i in completed %}
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{i.taskname}}</h5>
+
+
+                                </div>
+                                </div>
+                                {% empty %}
+                                <p class="text-center">No completed tasks yet</p>
+                                {% endfor %}
+                            
+
                         </div>
+
                     </div>
                 </div>
+                <div class="row ">
+                    <div class="col-lg-6 text-start">
+                        <div class="card card-header " style="margin-top:35px;">
+                            <h4 class="text-secondary fw-bol text-start">Enter a task to add to the list</h4>
+                            <form action="{% url 'add_task'  %}" class="" method="POST">
+                                {% csrf_token %}
 
-                <div class="col">
-                    <div class="card">
-                        <div class="card-header text-primary fw-bold">
-                            Tasks successfully finished
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Special title treatment</h5>
-                            <p class="card-text">With supporting text below as a natural lead-in to additional content.
-                            </p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                                <input style="margin-top: 20px;" name="task" type="text" class="form-control"
+                                    placeholder="" aria-label="Username" aria-describedby="basic-addon1">
+                                <button type="submit" style="margin-top: 20px;margin-left: 75%;padding-inline: 10%;"
+                                    class="btn btn-secondary">Add</button>
+
+                            </form>
                         </div>
                     </div>
 
                 </div>
+
+                <div class="spacer" style="height: 50px;"></div>
+
             </div>
         </div>
-    </div>
+
 
 </body>
 

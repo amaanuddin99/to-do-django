@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <title>edit task</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
+
+
+</head>
+<body>
+    <div style="height: 200px;"></div>
+  <div class="card card-header " style="margin-top:35px;width: 500px;margin: auto;">
+                            <h4 class="text-secondary fw-bol text-start">Edit Task</h4>
+                            <form action="{% url 'editit' task.pk  %}" class="" method="POST">
+                                {% csrf_token %}
+
+                                <input style="margin-top: 20px;" name="task" value='{{task.taskname}}' type="text" class="form-control"
+                                    placeholder="" aria-label="Username" aria-describedby="basic-addon1">
+                                <button type="submit" style="margin-top: 20px;margin-left: 75%;padding-inline: 10%;"
+                                    class="btn btn-secondary">Save change</button>
+
+                            </form>
+                        </div>
+
+</body>
+</html>
